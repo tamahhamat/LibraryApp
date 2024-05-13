@@ -1,3 +1,5 @@
+const pool = require('./database');
+
 class User {
     constructor(id, username, password) {
       this.id = id;

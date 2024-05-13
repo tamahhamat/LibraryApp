@@ -1,3 +1,5 @@
+const pool = require('./database');
+
 class Book {
     constructor(ISBN, title, author, genre) {
       this.ISBN = ISBN;
