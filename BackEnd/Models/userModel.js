@@ -5,7 +5,6 @@ class User {
       this.id = id;
       this.username = username;
       this.password = password;
-      // Add more fields as needed, such as email, role, etc.
     }
   }
   
