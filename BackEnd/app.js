@@ -16,7 +16,7 @@ const appRoutes = require('./Routes/appRoutes');
 
 
 // Mount routes
-app.use('/', appRoutes);
+app.use('/library', appRoutes);
 
 
 
