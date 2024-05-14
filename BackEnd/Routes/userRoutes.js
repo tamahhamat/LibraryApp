@@ -5,6 +5,7 @@ const router = express.Router();
 const path = require('path');
 
 const { getUserByUsername } = require ('../Models/queries');
+const { generateToken } = require('../utils');
 
 
 
@@ -16,7 +17,6 @@ router.get('/librarian', (req, res) => {
 
 
 // login
-
 
 router.post('/login', async (req, res) => {  
     console.log(req.body); // Log the request body
@@ -41,8 +41,8 @@ router.post('/login', async (req, res) => {
         if (user.password === password) {
             // Generate a JWT token with the username and send it back to the client
             console.log("Password matched. Creating JWT token for:", username);
-            //const token = makeToken({ username: user.username });
-            //res.json({ token });
+            const token = generateToken(user.username);
+            res.json({ token });
 
         } else {
             // If the password is incorrect, return 401 Unauthorized
