@@ -5,7 +5,33 @@ function generateToken(username) {
     return token;
 }
 
-module.exports = { generateToken };
+
+
+// store token in local storage
+function storeToken(token) {
+    localStorage.setItem('token', token);
+    console.log("token stored");
+}
+
+//  retrieve token from local storage
+function getToken() {
+    return localStorage.getItem('token');
+}
+
+// remove the token from local storage
+function removeToken() {
+    localStorage.removeItem('token');
+    console.log("token removed");
+}
+
+
+
+
+
+
+module.exports = { generateToken, storeToken, getToken, removeToken };
+
+
 
 
 
