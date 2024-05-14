@@ -2,6 +2,8 @@ require('dotenv').config();
 
 const express = require('express');
 const path = require('path');
+const bodyParser = require('body-parser');
+
 const app = express();
 
 
@@ -21,13 +23,20 @@ app.set('views', path.join(__dirname, 'FrontEnd', 'views'));
 app.set('view engine', 'html');
 
 
+// body-parser middleware to parse request bodies
+app.use(bodyParser.urlencoded({ extended: true }));
+app.use(bodyParser.json());
+
+
 // Import routes
 const appRoutes = require('./Routes/appRoutes');
+const userRoutes = require('./Routes/userRoutes');
 
 
 // Mount routes
 app.use(appRoutes);
 app.use('/library', appRoutes);
+app.use(userRoutes);
 
 
 
