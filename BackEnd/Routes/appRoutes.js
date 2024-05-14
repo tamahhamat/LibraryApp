@@ -30,5 +30,12 @@ router.get('/search', async (req, res) => {
 
 
 
+// Route to serve librarian login page
+router.get('/login', (req, res) => {
+    res.sendFile(path.join(__dirname, '..', '..', 'FrontEnd', 'views', 'loginPage.html'));
+});
+
+
+
 
 module.exports = router;
