@@ -6,6 +6,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Library Home Page</title>
+    <!-- <link rel="stylesheet" href="/Public/style.css"> -->
 </head>
 
 <body>
@@ -15,12 +16,22 @@
         <button type="submit">Search</button>
     </form>
 
-    <button id="loginButton">Login</button>
+
+    <button id="loginButton" type="button">Login</button>
 
     <div id="searchResults"></div>
 
-    <script src="searchScript.js"></script>    
+    <script src="../Public/searchScript.js" type="module"></script>
+    <!-- <script src="../Public/loginPageScript.js" type="module"></script> -->
+    <script>
+        document.getElementById('loginButton').addEventListener('click', function() {
+            console.log('Login button clicked');
+            window.location.href = "/login";
+        });
+    </script>
 
+    <!-- put script in file due to errors, should be in seperate folder. will address this issue later -->
+    
 
 </body>
 
