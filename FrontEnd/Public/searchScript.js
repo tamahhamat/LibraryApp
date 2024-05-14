@@ -25,3 +25,4 @@ document.getElementById('searchForm').addEventListener('submit', async (event) =
         alert('Error searching books. Please try again later.');
     }
 });
+
