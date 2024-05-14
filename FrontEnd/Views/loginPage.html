@@ -7,7 +7,7 @@
 </head>
 <body>
     <h1>Librarian Login</h1>
-    <form action="/login" method="POST">
+    <form id="loginForm" action="/login" method="POST">
         <label for="username">Username:</label>
         <input type="text" id="username" name="username">
         <label for="password">Password:</label>
@@ -19,6 +19,7 @@
     <script>
         document.getElementById('loginForm').addEventListener('submit', async function(event) {
             event.preventDefault(); 
+            console.log("Login clicked")
             
             const username = document.getElementById('username').value;
             const password = document.getElementById('password').value;
@@ -33,7 +34,8 @@
                 });
 
                 if (response.ok) {
-                    // Redirect to the librarian page upon successful login
+                    // Redirect to the librarian page on successful login
+                    console.log("Login Successful")
                     window.location.href = '/librarian';
                 } else {
                     // Handle unsuccessful login

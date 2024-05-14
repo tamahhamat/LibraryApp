@@ -11,7 +11,7 @@ const { generateToken, storeToken } = require('../utils');
 
 // get librarian page
 router.get('/librarian', (req, res) => {
-    res.sendFile(path.join(__dirname, '..', '..', 'FrontEnd', 'views', 'librarian.html'));
+    res.sendFile(path.join(__dirname, '..', '..', 'FrontEnd', 'views', 'librarianPage.html'));
 });
 
 
@@ -19,7 +19,7 @@ router.get('/librarian', (req, res) => {
 // login
 
 router.post('/login', async (req, res) => {  
-    console.log(req.body); // Log the request body
+    console.log(req.body); 
     const { username, password } = req.body;
 
     try {
