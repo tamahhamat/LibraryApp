@@ -9,12 +9,21 @@
 <body>
     <div class="container">
         <h1>Librarian Page</h1>
-        <input type="text" class="search-bar" placeholder="Search books...">
-        <button class="button">Search</button>
-        <button class="button">Add book to catalog</button>
-        <button class="button">Edit book details</button>
-        <button class="button">Remove book from catalog</button>
+
+        <form action="/library/search" method="GET">
+            <input type="text" name="query" placeholder="Search books...">
+            <button type="submit">Search</button>
+        </form>
+
+        <div id="searchResults"></div>
+        
+        <button class="button" onclick="window.location.href='/addBook'">Add book to catalog</button>
+        <button class="button" onclick="window.location.href='/editBook'">Edit book details</button>
+        <button class="button" onclick="window.location.href='/deleteBook'">Remove book from catalog</button>
         <button class="button">Logout</button>
     </div>
+
+    <script src="../Public/searchScript.js" type="module"></script>
+
 </body>
 </html>
