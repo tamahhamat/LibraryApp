@@ -21,6 +21,10 @@ const addBook = async (book) => {
   await pool.query(query, [ISBN, title, author, genre]);
 };
 
+const removeBook = async (ISBN) => {
+  const query = 'DELETE FROM books WHERE ISBN = $1';
+  await pool.query(query, [ISBN]);
+};
 
 
 
@@ -48,7 +52,7 @@ async function getUserByUsername(username) {
 module.exports = {
   searchBooks,
   addBook,
-  deleteBook,
+  removeBook,
   updateBook,
   getUserByUsername
 };
