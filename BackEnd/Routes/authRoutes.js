@@ -1,7 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const path = require('path');
-const { addBook, deleteBook, updateBook } = require('../Models/queries');
+const { addBook, removeBook, updateBook } = require('../Models/queries');
 
 
 
@@ -10,9 +10,9 @@ router.get('/addBook', (req, res) => {
     res.sendFile(path.join(__dirname, '..', '..', 'FrontEnd', 'views', 'addBook.html'));
 });
 
-// Serve the delete book form
-router.get('/deleteBook', (req, res) => {
-    res.sendFile(path.join(__dirname, '..', '..', 'FrontEnd', 'views', 'deleteBook.html'));
+// Serve the remove book form
+router.get('/removeBook', (req, res) => {
+    res.sendFile(path.join(__dirname, '..', '..', 'FrontEnd', 'views', 'removeBook.html'));
 });
 
 // Serve the edit book form
@@ -32,6 +32,17 @@ router.post('/addBook', async (req, res) => {
     }
 });
 
+// remove a book
+router.post('/removeBook', async (req, res) => {
+    const { ISBN } = req.body;
+    try {
+        await removeBook(ISBN);
+        res.status(200).send('Book removed successfully');
+    } catch (error) {
+        console.error('Error removing book:', error);
+        res.status(500).send('Internal Server Error');
+    }
+});
 
 
 module.exports = router;
