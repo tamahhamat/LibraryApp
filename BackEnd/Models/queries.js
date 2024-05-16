@@ -15,6 +15,17 @@ async function searchBooks(query) {
 }
 
 
+const addBook = async (book) => {
+  const { ISBN, title, author, genre } = book;
+  const query = 'INSERT INTO books (ISBN, title, author, genre) VALUES ($1, $2, $3, $4)';
+  await pool.query(query, [ISBN, title, author, genre]);
+};
+
+
+
+
+
+
 
 
 
@@ -36,6 +47,9 @@ async function getUserByUsername(username) {
 
 module.exports = {
   searchBooks,
+  addBook,
+  deleteBook,
+  updateBook,
   getUserByUsername
 };
 
