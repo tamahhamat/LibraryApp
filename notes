@@ -1,0 +1,18 @@
+add error messages if data is entered wrong (ie isbn forms etc)
+
+add navigating bar/buttons to navigate without pushing back all the time 
+
+ignore spaces in search terms
+
+make edit book better - should enter existing detail -> new detail, maybe select from drop down what detail, then enter old/new?
+
+ask for confirmation before deleteing book - book found, confim delete book
+
+
+restructure - search for book and then have the option to add it or remove it
+
+add to database if book is part of a series, return all in series
+
+tomorrow- add auth middleware
+add logout
+
