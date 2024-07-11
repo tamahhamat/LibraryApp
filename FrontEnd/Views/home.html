@@ -119,6 +119,7 @@
                 <button type="submit" class="search-button">Search</button>
             </div>
         </form>
+        <div id="searchResults" class="search-results" x-text="JSON.stringify(results, null, 2)"></div>
         <!-- <div id="searchResults" class="search-results">
             <template x-for="result in results" :key="result">
                 <div x-text="result"></div>
@@ -137,10 +138,19 @@
     
                 try {
                     const response = await fetch(`http://localhost:800/library/search?query=${encodeURIComponent(searchTerm)}`);
-                    if (!response.ok) {
-                        throw new Error('Network response was not ok');
-                    }
                     const data = await response.json();
+
+                    const searchResultsDiv = document.getElementById('searchResults');
+                    searchResultsDiv.innerHTML = '';
+
+                    if (data && data.length > 0) {
+                        // Update results
+                        searchResultsDiv.textContent = JSON.stringify(data, null, 2);
+                    } else {
+                        searchResultsDiv.textContent = 'No books found';
+                    }
+
+
                     console.log('Search results:', data); 
                 } catch (error) {
                     console.error('Error searching books:', error);
