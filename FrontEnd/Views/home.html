@@ -75,7 +75,7 @@
             background-color: #0e4633;
         }
         .search-results {
-            /* display: none; */
+            display: none;
             margin-top: 20px;
             width: 100%;
             border: 1px solid #ccc;
@@ -83,6 +83,23 @@
             background-color: #fff;
             border-radius: 5px;
             box-sizing: border-box;
+        }
+        .book-item {
+            margin-bottom: 10px;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            background-color: #f9f9f9;
+        }
+        .book-item h3 {
+            margin: 0;
+            font-size: 1.2em;
+            color: #333;
+        }
+        .book-item p {
+            margin: 5px 0;
+            font-size: 1em;
+            color: #666;
         }
         @media (min-width: 600px) {
             header {
@@ -119,22 +136,19 @@
                 <button type="submit" class="search-button">Search</button>
             </div>
         </form>
-        <div id="searchResults" class="search-results" x-text="JSON.stringify(results, null, 2)"></div>
-        <!-- <div id="searchResults" class="search-results">
-            <template x-for="result in results" :key="result">
-                <div x-text="result"></div>
-            </template>
-        </div> -->
+        <div id="searchResults" class="search-results" ></div>
     </div>
-
-     
     
-     <script>
+
+    
+    <script>       
+
         document.addEventListener('DOMContentLoaded', () => {
             document.getElementById('searchForm').addEventListener('submit', async (event) => {
                 event.preventDefault();
                 const searchTerm = document.getElementById('searchInput').value.trim();
                 if (!searchTerm) return;
+                
     
                 try {
                     const response = await fetch(`http://localhost:800/library/search?query=${encodeURIComponent(searchTerm)}`);
@@ -143,25 +157,43 @@
                     const searchResultsDiv = document.getElementById('searchResults');
                     searchResultsDiv.innerHTML = '';
 
+                    searchResultsDiv.style.display = 'block';
+
                     if (data && data.length > 0) {
-                        // Update results
-                        searchResultsDiv.textContent = JSON.stringify(data, null, 2);
+                        data.forEach(book => {
+                            const bookItem = document.createElement('div');
+                            bookItem.classList.add('book-item');
+
+                            const title = document.createElement('h3');
+                            title.textContent = `Title: ${book.title}`;
+
+                            const author = document.createElement('p');
+                            author.textContent = `Author: ${book.author}`;
+
+                            const genre = document.createElement('p');
+                            genre.textContent = `Genre: ${book.genre}`;
+
+                            bookItem.appendChild(title);
+                            bookItem.appendChild(author);
+                            bookItem.appendChild(genre);
+
+                            searchResultsDiv.appendChild(bookItem);
+                        });
                     } else {
                         searchResultsDiv.textContent = 'No books found';
                     }
 
-
-                    console.log('Search results:', data); 
+                    console.log('Search results:', data);
                 } catch (error) {
                     console.error('Error searching books:', error);
                     alert('Error searching books. Please try again later.');
                 }
             });
-    
+
             document.getElementById('loginButton').addEventListener('click', function() {
                 window.location.href = "/library/login";
             });
         });
-        </script>
-    </body>
-    </html>
+    </script>
+</body>
+</html>
