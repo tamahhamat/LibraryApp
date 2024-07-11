@@ -110,7 +110,7 @@
 <body>
     <header>
         Library Home Page
-        <button class="login-button" @click="console.log('Login button clicked')">Login</button>
+        <button id="loginButton" class="login-button" @click="console.log('Login button clicked')">Login</button>
     </header>
     <div class="container" x-data="{ search: '', results: [] }">
         <form id="searchForm">
@@ -119,50 +119,39 @@
                 <button type="submit" class="search-button">Search</button>
             </div>
         </form>
-        <div class="search-results">
-            <!-- Results here -->
+        <!-- <div id="searchResults" class="search-results">
             <template x-for="result in results" :key="result">
                 <div x-text="result"></div>
             </template>
-        </div>
+        </div> -->
     </div>
 
-    <!-- search.js script here -->
-    <script src="../Public/searchScript.js"></script>
-</body>
-</html>
-
-
-
-
-
-
-
-<!-- <!DOCTYPE html>
-<html lang="en" x-data="libraryApp()">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Library Home Page</title>
-    <link rel="stylesheet" href="/Public/style.css">
-    <script src="https://unpkg.com/alpinejs@3.x.x/dist/cdn.min.js" defer></script>
-</head>
-<body>
-    <header>
-        <div class="header-content">
-            <h1>Library Home Page</h1>
-            <button id="loginButton" type="button">Login</button>
-        </div>
-    </header>
+     
     
-    <main>
-        <form id="searchForm">
-            <input type="text" id="searchInput" name="query" placeholder="Search books...">
-            <button type="submit">Search</button>
-        </form>
-
-        <div id="searchResults"></div>
-    </main>
-    <script src="/Public/searchScript.js"></script>
-</body>
-</html> -->
+     <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            document.getElementById('searchForm').addEventListener('submit', async (event) => {
+                event.preventDefault();
+                const searchTerm = document.getElementById('searchInput').value.trim();
+                if (!searchTerm) return;
+    
+                try {
+                    const response = await fetch(`http://localhost:800/library/search?query=${encodeURIComponent(searchTerm)}`);
+                    if (!response.ok) {
+                        throw new Error('Network response was not ok');
+                    }
+                    const data = await response.json();
+                    console.log('Search results:', data); 
+                } catch (error) {
+                    console.error('Error searching books:', error);
+                    alert('Error searching books. Please try again later.');
+                }
+            });
+    
+            document.getElementById('loginButton').addEventListener('click', function() {
+                window.location.href = "/library/login";
+            });
+        });
+        </script>
+    </body>
+    </html>
