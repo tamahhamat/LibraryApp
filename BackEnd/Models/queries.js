@@ -3,7 +3,6 @@ const User = require('./userModel');
 
 
 
-//search books
 async function searchBooks(query) {
   const searchQuery = `
     SELECT * 
@@ -12,7 +11,16 @@ async function searchBooks(query) {
   `;
   const { rows } = await pool.query(searchQuery, [`%${query}%`]);
   return rows;
-}
+};
+
+
+
+const getBookByISBN = async (ISBN) => {
+  const query = 'SELECT * FROM books WHERE ISBN = $1';
+  const result = await pool.query(query, [ISBN]);
+  return result.rows[0];
+};
+
 
 
 const addBook = async (book) => {
@@ -21,12 +29,44 @@ const addBook = async (book) => {
   await pool.query(query, [ISBN, title, author, genre]);
 };
 
+
 const removeBook = async (ISBN) => {
   const query = 'DELETE FROM books WHERE ISBN = $1';
   await pool.query(query, [ISBN]);
 };
 
 
+const updateBook = async (ISBN, updatedFields) => {
+  const { title, author, genre } = updatedFields;
+
+  // Build the query dynamically based on provided fields
+  let query = 'UPDATE books SET ';
+  const fields = [];
+  const values = [];
+  let index = 1;
+
+  if (title) {
+      fields.push(`title = $${index++}`);
+      values.push(title);
+  }
+  if (author) {
+      fields.push(`author = $${index++}`);
+      values.push(author);
+  }
+  if (genre) {
+      fields.push(`genre = $${index++}`);
+      values.push(genre);
+  }
+
+  if (fields.length === 0) {
+      throw new Error('No fields to update');
+  }
+
+  query += fields.join(', ') + ' WHERE ISBN = $' + index;
+  values.push(ISBN);
+
+  await pool.query(query, values);
+};
 
 
 
@@ -51,6 +91,7 @@ async function getUserByUsername(username) {
 
 module.exports = {
   searchBooks,
+  getBookByISBN,
   addBook,
   removeBook,
   updateBook,
