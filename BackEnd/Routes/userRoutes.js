@@ -9,9 +9,11 @@ const { generateToken, storeToken } = require('../utils');
 
 
 
+
+
 // get librarian page
 router.get('/librarian', (req, res) => {
-    res.sendFile(path.join(__dirname, '..', '..', 'FrontEnd', 'views', 'librarianPage.html'));
+    res.sendFile(path.join(__dirname, '..', '..', 'Frontend', 'views', 'librarianPage.html'));
 });
 
 
