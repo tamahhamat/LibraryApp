@@ -1,4 +1,4 @@
-const express = require('express');
+const express = require('express'); 
 const router = express.Router();
 const path = require('path');
 
@@ -23,17 +23,17 @@ router.get('/search', async (req, res) => {
         res.json(books);
       }
     } catch (error) {
-      console.error('Error searching books:', error);
+      console.error('route Error searching books:', error);
       res.status(500).send('Internal Server Error');
     }
   });
 
 
-
-// Route to serve librarian login page
-router.get('/login', (req, res) => {
-    res.sendFile(path.join(__dirname, '..', '..', 'FrontEnd', 'views', 'loginPage.html'));
-});
+  
+// // Route to serve librarian login page
+// router.get('/login', (req, res) => {
+//     res.sendFile(path.join(__dirname, '..', '..', 'FrontEnd', 'views', 'loginPage.html'));
+// });
 
 
 
