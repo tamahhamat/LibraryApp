@@ -1,29 +1,236 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Librarian Page</title>
-    <!-- styling -->
+    <title>Library Home Page</title>
+    <script src="https://cdn.jsdelivr.net/npm/alpinejs@2.8.2/dist/alpine.min.js" defer></script>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            background-color: #f5f5f5;
+            box-sizing: border-box;
+            min-height: 100vh;
+        }
+
+        header {
+            font-size: 3em;
+            margin: 0;
+            text-align: center;
+            width: 100%;
+            background-color: #0f8b62;
+            color: #fff;
+            padding: 20px 0;
+            position: relative;
+        }
+
+        .container {
+            width: 90%;
+            max-width: 600px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin-top: 60px;
+        }
+
+        .search-box {
+            width: calc(100% - 90px);
+            padding: 8px;
+            font-size: 0.8em;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            box-sizing: border-box;
+        }
+
+        .search-button {
+            width: 80px;
+            padding: 8px;
+            font-size: 0.8em;
+            background-color: #0f8b62;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+            margin-left: 5px;
+        }
+
+        .search-button:hover {
+            background-color: #0e4633;
+        }
+
+        .search-results {
+            display: none;
+            margin-top: 20px;
+            width: 100%;
+            border: 1px solid #ccc;
+            padding: 10px;
+            background-color: #fff;
+            border-radius: 5px;
+            box-sizing: border-box;
+        }
+
+        .book-item {
+            margin-bottom: 10px;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            background-color: #f9f9f9;
+        }
+
+        .book-item h3 {
+            margin: 0;
+            font-size: 1.2em;
+            color: #333;
+        }
+
+        .book-item p {
+            margin: 5px 0;
+            font-size: 1em;
+            color: #666;
+        }
+
+        .book-item button {
+            margin-right: 10px;
+            padding: 5px 10px;
+            font-size: 0.9em;
+            border: none;
+            border-radius: 3px;
+            cursor: pointer;
+        }
+
+        .edit-button {
+            background-color: #0f8b62;
+            color: #fff;
+        }
+
+        .remove-button {
+            background-color: #0e4633;
+            color: #fff;
+        }
+
+        .edit-button:hover {
+            background-color: #8b170f;
+        }
+
+        .remove-button:hover {
+            background-color: #8b170f;
+        }
+
+        @media (min-width: 600px) {
+            header {
+                font-size: 4em;
+                padding: 30px 0;
+            }
+
+            .container {
+                width: 80%;
+            }
+
+            .search-box {
+                font-size: 1em;
+            }
+
+            .search-button {
+                font-size: 1em;
+                padding: 7px;
+                width: 90px;
+            }
+        }
+    </style>
 </head>
+
 <body>
-    <div class="container">
-        <h1>Librarian Page</h1>
+    <header>
+        Librarian Home Page
+    </header>
 
-        <form action="/library/search" method="GET">
-            <input type="text" name="query" placeholder="Search books...">
-            <button type="submit">Search</button>
+    <div class="container" x-data="{ search: '', results: [] }">
+        <form id="searchForm">
+            <div style="display: flex; align-items: center; width: 100%;">
+                <input type="text" id="searchInput" class="search-box" placeholder="Search for book" x-model="search">
+                <button type="submit" class="search-button">Search</button>
+            </div>
         </form>
-
-        <div id="searchResults"></div>
-        
-        <button class="button" onclick="window.location.href='/addBook'">Add book to catalog</button>
-        <button class="button" onclick="window.location.href='/editBook'">Edit book details</button>
-        <button class="button" onclick="window.location.href='/removeBook'">Remove book from catalog</button>
-        <button class="button">Logout</button>
+        <div id="searchResults" class="search-results" x-show="results.length > 0">
+            <template x-for="book in results" :key="book.ISBN">
+                <div class="book-item">
+                    <h3>Title: {{ book.title }}</h3>
+                    <p>Author: {{ book.author }}</p>
+                    <p>Genre: {{ book.genre }}</p>
+                    <button class="edit-button" @click="editBook(book)">Edit Details</button>
+                    <button class="remove-button" @click="deleteBook(book.ISBN)">Remove Book</button>
+                </div>
+            </template>
+            <p x-show="results.length === 0">No books found</p>
+        </div>
     </div>
 
-    <script src="../Public/searchScript.js" type="module"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            document.getElementById('searchForm').addEventListener('submit', async (event) => {
+                event.preventDefault();
+                const searchTerm = document.getElementById('searchInput').value.trim();
+                if (!searchTerm) return;
 
+                try {
+                    const response = await fetch(`http://localhost:800/library/search?query=${encodeURIComponent(searchTerm)}`);
+                    const data = await response.json();
+
+                    const searchResultsDiv = document.getElementById('searchResults');
+                    searchResultsDiv.innerHTML = '';
+
+                    searchResultsDiv.style.display = 'block';
+
+                    if (data && data.length > 0) {
+                        data.forEach(book => {
+                            const bookItem = document.createElement('div');
+                            bookItem.classList.add('book-item');
+
+                            const title = document.createElement('h3');
+                            title.textContent = `Title: ${book.title}`;
+
+                            const author = document.createElement('p');
+                            author.textContent = `Author: ${book.author}`;
+
+                            const genre = document.createElement('p');
+                            genre.textContent = `Genre: ${book.genre}`;
+
+                            bookItem.appendChild(title);
+                            bookItem.appendChild(author);
+                            bookItem.appendChild(genre);
+
+                            const editButton = document.createElement('button');
+                            editButton.classList.add('edit-button');
+                            editButton.textContent = 'Edit Details';
+
+                            const removeButton = document.createElement('button');
+                            removeButton.classList.add('remove-button');
+                            removeButton.textContent = 'Remove Book';
+
+                            bookItem.appendChild(editButton);
+                            bookItem.appendChild(removeButton);
+
+                            searchResultsDiv.appendChild(bookItem);
+                        });
+                    } else {
+                        searchResultsDiv.textContent = 'No books found';
+                    }
+
+                    console.log('Search results:', data);
+                } catch (error) {
+                    console.error('Error searching books:', error);
+                    alert('Error searching books. Please try again later.');
+                }
+            });
+        });
+    </script>
 </body>
+
 </html>
