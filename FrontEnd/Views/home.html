@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -17,8 +18,9 @@
             box-sizing: border-box;
             min-height: 100vh;
         }
+
         header {
-            font-size: 4em;
+            font-size: 3em;
             margin: 0;
             text-align: center;
             width: 100%;
@@ -27,22 +29,42 @@
             padding: 20px 0;
             position: relative;
         }
-        .login-button {
+
+        .login-container {
             position: absolute;
-            right: 20px;
-            top: 20px;
-            padding: 5px 10px;
-            font-size: 0.2em;
+            right: 10px;
+            top: 10px;
+            display: flex;
+            align-items: center;
+            transform: scale(0.35);
+            transform-origin: top right;
+        }
+
+        .login-input {
+            padding: 7px;
+            font-size: 0.9em;
+            margin-bottom: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+
+        .login-button {
+            padding: 7px 14px;
+            font-size: 0.9em;
             background-color: #ffffff;
             color: #0f8b62;
             border: none;
             border-radius: 5px;
             cursor: pointer;
             transition: background-color 0.3s;
+            display: block;
+            margin: 10px auto;
         }
+
         .login-button:hover {
             background-color: #0e4633;
         }
+
         .container {
             width: 90%;
             max-width: 600px;
@@ -51,29 +73,33 @@
             align-items: center;
             margin-top: 60px;
         }
+
         .search-box {
-            width: 100%;
-            padding: 10px;
-            font-size: 1em;
+            width: calc(100% - 90px);
+            padding: 8px;
+            font-size: 0.8em;
             border: 1px solid #ccc;
             border-radius: 5px;
             box-sizing: border-box;
         }
+
         .search-button {
-            width: 100px; 
-            padding: 10px;
-            font-size: 1em;
+            width: 80px;
+            padding: 8px;
+            font-size: 0.8em;
             background-color: #0f8b62;
             color: #fff;
             border: none;
             border-radius: 5px;
             cursor: pointer;
             transition: background-color 0.3s;
-            margin-left: 10px; /
+            margin-left: 5px;
         }
+
         .search-button:hover {
             background-color: #0e4633;
         }
+
         .search-results {
             display: none;
             margin-top: 20px;
@@ -84,6 +110,7 @@
             border-radius: 5px;
             box-sizing: border-box;
         }
+
         .book-item {
             margin-bottom: 10px;
             padding: 10px;
@@ -91,43 +118,62 @@
             border-radius: 5px;
             background-color: #f9f9f9;
         }
+
         .book-item h3 {
             margin: 0;
             font-size: 1.2em;
             color: #333;
         }
+
         .book-item p {
             margin: 5px 0;
             font-size: 1em;
             color: #666;
         }
+
         @media (min-width: 600px) {
             header {
-                font-size: 5em; 
-                padding: 30px 0; 
+                font-size: 4em;
+                padding: 30px 0;
             }
+
             .container {
                 width: 80%;
             }
+
             .search-box {
-                font-size: 1.2em;
+                font-size: 1em;
             }
+
             .search-button {
-                font-size: 1.2em;
+                font-size: 1em;
                 padding: 7px;
                 width: 90px;
             }
+
+            .login-input {
+                font-size: 0.9em;
+                padding: 7px;
+            }
+
             .login-button {
-                padding: 7px 14px; 
-                font-size: 0.3em; 
+                padding: 7px 14px;
+                font-size: 0.9em;
             }
         }
     </style>
 </head>
+
 <body>
     <header>
         Library Home Page
-        <button id="loginButton" class="login-button" @click="console.log('Login button clicked')">Login</button>
+        <div class="login-container">
+            <form id="loginForm">
+                <input type="text" id="username" class="login-input" placeholder="Username" required>
+                <input type="password" id="password" class="login-input" placeholder="Password" required>
+                <button type="submit" class="login-button">Login</button>
+            </form>
+        </div>
     </header>
     <div class="container" x-data="{ search: '', results: [] }">
         <form id="searchForm">
@@ -136,20 +182,51 @@
                 <button type="submit" class="search-button">Search</button>
             </div>
         </form>
-        <div id="searchResults" class="search-results" ></div>
+        <div id="searchResults" class="search-results"></div>
     </div>
-    
 
-    
-    <script>       
-
+    <script>
         document.addEventListener('DOMContentLoaded', () => {
+            document.getElementById('loginForm').addEventListener('submit', async function (event) {
+                event.preventDefault();
+
+                const username = document.getElementById('username').value;
+                const password = document.getElementById('password').value;
+
+                try {
+                    const response = await fetch('http://localhost:800/login', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify({ username, password }),
+                        credentials: 'include'
+                    });
+
+                    if (response.ok) {
+                        console.log("Login Successful");
+                        window.location.href = 'http://localhost:800/librarian'; 
+                    } else {
+                        console.error('Login failed');
+                        alert('Login failed. Please check your username and password.');
+                    }
+                } catch (error) {
+                    console.error('Error during login:', error);
+                    alert('An error occurred during login. Please try again later.');
+                }
+            });
+
+                
+
+
+
+
+
             document.getElementById('searchForm').addEventListener('submit', async (event) => {
                 event.preventDefault();
                 const searchTerm = document.getElementById('searchInput').value.trim();
                 if (!searchTerm) return;
-                
-    
+
                 try {
                     const response = await fetch(`http://localhost:800/library/search?query=${encodeURIComponent(searchTerm)}`);
                     const data = await response.json();
@@ -189,11 +266,23 @@
                     alert('Error searching books. Please try again later.');
                 }
             });
-
-            document.getElementById('loginButton').addEventListener('click', function() {
-                window.location.href = "/library/login";
-            });
         });
     </script>
 </body>
+
 </html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- header is not responsiv, sizes dont change properly -->
