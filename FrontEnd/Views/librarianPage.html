@@ -5,213 +5,46 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Library Home Page</title>
+    <link rel="stylesheet" href="/styles/librarianStyle.css">
     <script src="https://cdn.jsdelivr.net/npm/alpinejs@2.8.2/dist/alpine.min.js" defer></script>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            margin: 0;
-            padding: 0;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            background-color: #f5f5f5;
-            box-sizing: border-box;
-            min-height: 100vh;
-        }
 
-        header {
-            font-size: 3em;
-            margin: 0;
-            text-align: center;
-            width: 100%;
-            background-color: #0f8b62;
-            color: #fff;
-            padding: 20px 0;
-            position: relative;
-        }
-
-        .container {
-            width: 90%;
-            max-width: 800px;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            margin-top: 60px;
-        }
-
-        .search-box {
-            width: calc(100% - 90px);
-            padding: 8px;
-            font-size: 0.8em;
-            border: 1px solid #ccc;
-            border-radius: 5px;
-            box-sizing: border-box;
-        }
-
-        .search-button {
-            width: 80px;
-            padding: 8px;
-            font-size: 0.8em;
-            background-color: #0f8b62;
-            color: #fff;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-            transition: background-color 0.3s;
-            margin-left: 5px;
-        }
-
-        .search-button:hover {
-            background-color: #0e4633;
-        }
-
-        .results-container {
-            display: flex;
-            justify-content: space-between;
-            width: 100%;
-            margin-top: 20px;
-        }
-
-        .column {
-            width: 48%;
-            padding: 10px;
-            background-color: #fff;
-            border: 1px solid #ccc;
-            border-radius: 5px;
-            box-sizing: border-box;
-        }
-
-        .search-results {
-            display: none;
-            margin-top: 20px;
-            width: 100%;
-            border: 1px solid #ccc;
-            padding: 10px;
-            background-color: #fff;
-            border-radius: 5px;
-            box-sizing: border-box;
-        }
-
-        .book-item {
-            margin-bottom: 10px;
-            padding: 10px;
-            border: 1px solid #ddd;
-            border-radius: 5px;
-            background-color: #f9f9f9;
-        }
-
-        .book-item h3 {
-            margin: 0;
-            font-size: 1.2em;
-            color: #333;
-        }
-
-        .book-item p {
-            margin: 5px 0;
-            font-size: 1em;
-            color: #666;
-        }
-
-        .book-item button {
-            margin-right: 10px;
-            padding: 5px 10px;
-            font-size: 0.9em;
-            border: none;
-            border-radius: 3px;
-            cursor: pointer;
-        }
-
-        .update-button {
-            background-color: #0f8b62;
-            color: #fff;
-        }
-
-        .remove-button {
-            background-color: #0e4633;
-            color: #fff;
-        }
-
-        .update-button:hover {
-            background-color: #8b170f;
-        }
-
-        .remove-button:hover {
-            background-color: #8b170f;
-        }
-
-        .update-view {
-            display: none;
-            margin-top: 20px;
-            border: 1px solid #ccc;
-            padding: 10px;
-            background-color: #fff;
-            border-radius: 5px;
-            box-sizing: border-box;
-        }
-
-        .update-form label {
-            display: block;
-            margin-bottom: 5px;
-            font-weight: bold;
-        }
-
-        .update-form input {
-            width: calc(100% - 20px);
-            padding: 8px;
-            margin-bottom: 10px;
-            border: 1px solid #ccc;
-            border-radius: 5px;
-            box-sizing: border-box;
-        }
-
-        .update-form button {
-            padding: 8px 12px;
-            background-color: #0f8b62;
-            color: #fff;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-            transition: background-color 0.3s;
-        }
-
-        .update-form button:hover {
-            background-color: #0e4633;
-        }
-
-        @media (min-width: 600px) {
-            header {
-                font-size: 4em;
-                padding: 30px 0;
-            }
-
-            .container {
-                width: 80%;
-            }
-
-            .search-box {
-                font-size: 1em;
-            }
-
-            .search-button {
-                font-size: 1em;
-                padding: 7px;
-                width: 90px;
-            }
-        }
-    </style>
 </head>
 
 <body>
     <header>
         Librarian Home Page
     </header>
-    <div class="container" x-data="{ search: '', results: [], updateBook: ''}">
+
+    <div class="container" x-data="{ search: '', addBook: false, results: [], updateBook: ''}">
         <form id="searchForm">
             <div style="display: flex; align-items: center; width: 100%;">
                 <input type="text" id="searchInput" class="search-box" placeholder="Search for book" x-model="search">
                 <button type="submit" class="search-button">Search</button>
             </div>
         </form>
+        <!-- Button to toggle add book container -->
+        <button id="add-button" @click="addBook = !addBook">Add Book</button>
+
+        <!-- Container for adding a new book -->
+        <div id="addBookDiv" class="add-book-container" x-show="addBook">
+            <form class="add-book-form">
+                <label for="addTitle">Title</label>
+                <input type="text" id="addTitle" name="addTitle" required>
+
+                <label for="addAuthor">Author</label>
+                <input type="text" id="addAuthor" name="addAuthor" required>
+
+                <label for="addGenre">Genre</label>
+                <input type="text" id="addGenre" name="addGenre" required>
+
+                <label for="addISBN">ISBN</label>
+                <input type="text" id="addISBN" name="addISBN" required>
+
+                <button type="submit">Save</button>
+            </form>
+        </div>
+
+
         <div class="results-container">
             <div id="searchResults" class="search-results" x-show="results.length > 0">
                 <template x-for="book in results" :key="book.isbn">
@@ -226,6 +59,8 @@
                 </template>
                 <p x-show="results.length === 0">No books found</p>
             </div>
+
+
             <!-- UPDATE DATABASE HERE -->
             <div id="updateView" class="column update-view" x-show="updateBook">
                 <form class="update-form" @submit.prevent="saveChanges">
@@ -245,8 +80,59 @@
 
     <script>
         document.addEventListener('DOMContentLoaded', () => {
+
+            const addBookButton = document.getElementById('add-button');
+            const addBookDiv = document.getElementById('addBookDiv');
+            addBookButton.addEventListener('click', () => {
+                addBookDiv.style.display = 'block';
+            });
+
+
+            document.querySelector('.add-book-form').addEventListener('submit', async (event) => {
+                event.preventDefault();
+
+                const title = document.getElementById('addTitle').value.trim();
+                const author = document.getElementById('addAuthor').value.trim();
+                const genre = document.getElementById('addGenre').value.trim();
+                const isbn = document.getElementById('addISBN').value.trim();
+
+                if (!title || !author || !genre || !isbn) {
+                    alert('All fields are required');
+                    return;
+                }
+
+                try {
+                    const response = await fetch('http://localhost:800/addBook', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify({ ISBN: isbn, title, author, genre })
+                    });
+
+                    if (response.ok) {
+                        alert('Book added successfully');
+                        document.querySelector('.add-book-form').reset();
+                        document.getElementById('addBookDiv').style.display = 'none';
+                        document.getElementById('searchForm').dispatchEvent(new Event('submit'));
+                    } else {
+                        alert('Failed to add book');
+                    }
+                } catch (error) {
+                    console.error('Error adding book:', error);
+                    alert('Error adding book. Please try again later.');
+                }
+            });
+
+
+
+            /////////// search
             document.getElementById('searchForm').addEventListener('submit', async (event) => {
                 event.preventDefault();
+
+                const addBookDiv = document.getElementById('addBookDiv');
+                addBookDiv.style.display = 'none';
+
                 const searchTerm = document.getElementById('searchInput').value.trim();
                 if (!searchTerm) return;
 
@@ -289,7 +175,7 @@
                             removeButton.classList.add('remove-button');
                             removeButton.textContent = 'Remove Book';
 
-                            //  event listener for remove button with confirmation
+                            //////////// remove button with confirmation
                             removeButton.addEventListener('click', async () => {
                                 const confirmation = confirm(`Are you sure you want to delete "${book.title}" by "${book.author}"?`);
                                 if (confirmation) {
@@ -346,7 +232,7 @@
 
                                     try {
                                         const response = await fetch('http://localhost:800/updateBook', {
-                                            method: 'PATCH', 
+                                            method: 'PATCH',
                                             headers: {
                                                 'Content-Type': 'application/json'
                                             },
