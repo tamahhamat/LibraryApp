@@ -70,9 +70,6 @@ const updateBook = async (ISBN, updatedFields) => {
 
 
 
-
-
-
 // Get user by username
 async function getUserByUsername(username) {
   const query = 'SELECT * FROM users WHERE username = $1';
