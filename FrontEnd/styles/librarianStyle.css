@@ -21,6 +21,25 @@ header {
     position: relative;
 }
 
+.logout-button {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    padding: 8px 12px;
+    font-size: 0.9em;
+    background-color: #0e4633;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+    transform: scale(0.35);
+    transform-origin: top right;
+}
+
+.logout-button:hover {
+    background-color: #8b170f;
+}
 .container {
     width: 90%;
     max-width: 800px;
