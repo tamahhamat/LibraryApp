@@ -1,0 +1,246 @@
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background-color: #f5f5f5;
+    box-sizing: border-box;
+    min-height: 100vh;
+}
+
+header {
+    font-size: 3em;
+    margin: 0;
+    text-align: center;
+    width: 100%;
+    background-color: #0f8b62;
+    color: #fff;
+    padding: 20px 0;
+    position: relative;
+}
+
+.container {
+    width: 90%;
+    max-width: 800px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-top: 60px;
+}
+
+.search-box {
+    width: calc(100% - 90px);
+    padding: 8px;
+    font-size: 0.8em;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    box-sizing: border-box;
+}
+
+.search-button {
+    width: 80px;
+    padding: 8px;
+    font-size: 0.8em;
+    background-color: #0f8b62;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+    margin-left: 5px;
+}
+
+.search-button:hover {
+    background-color: #0e4633;
+}
+
+#add-button {
+    margin-top: 20px;
+    padding: 8px 12px;
+    font-size: 0.9em;
+    background-color: #0f8b62;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+#add-button:hover {
+    background-color: #0e4633;
+}
+
+.add-book-container {
+    display: none;
+    margin-top: 20px;
+    padding: 20px;
+    border: 1px solid #ccc;
+    background-color: #fff;
+    border-radius: 5px;
+    box-sizing: border-box;
+}
+
+.add-book-form label {
+    display: block;
+    margin-bottom: 5px;
+    font-weight: bold;
+}
+
+.add-book-form input {
+    width: calc(100% - 20px);
+    padding: 8px;
+    margin-bottom: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    box-sizing: border-box;
+}
+
+.add-book-form button {
+    padding: 8px 12px;
+    background-color: #0f8b62;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.add-book-form button:hover {
+    background-color: #0e4633;
+}
+
+.results-container {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+    margin-top: 20px;
+}
+
+.column {
+    width: 48%;
+    padding: 10px;
+    background-color: #fff;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    box-sizing: border-box;
+}
+
+.search-results {
+    display: none;
+    margin-top: 20px;
+    width: 100%;
+    border: 1px solid #ccc;
+    padding: 10px;
+    background-color: #fff;
+    border-radius: 5px;
+    box-sizing: border-box;
+}
+
+.book-item {
+    margin-bottom: 10px;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    background-color: #f9f9f9;
+}
+
+.book-item h3 {
+    margin: 0;
+    font-size: 1.2em;
+    color: #333;
+}
+
+.book-item p {
+    margin: 5px 0;
+    font-size: 1em;
+    color: #666;
+}
+
+.book-item button {
+    margin-right: 10px;
+    padding: 5px 10px;
+    font-size: 0.9em;
+    border: none;
+    border-radius: 3px;
+    cursor: pointer;
+}
+
+.update-button {
+    background-color: #0f8b62;
+    color: #fff;
+}
+
+.remove-button {
+    background-color: #0e4633;
+    color: #fff;
+}
+
+.update-button:hover {
+    background-color: #8b170f;
+}
+
+.remove-button:hover {
+    background-color: #8b170f;
+}
+
+.update-view {
+    display: none;
+    margin-top: 20px;
+    border: 1px solid #ccc;
+    padding: 10px;
+    background-color: #fff;
+    border-radius: 5px;
+    box-sizing: border-box;
+}
+
+.update-form label {
+    display: block;
+    margin-bottom: 5px;
+    font-weight: bold;
+}
+
+.update-form input {
+    width: calc(100% - 20px);
+    padding: 8px;
+    margin-bottom: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    box-sizing: border-box;
+}
+
+.update-form button {
+    padding: 8px 12px;
+    background-color: #0f8b62;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.update-form button:hover {
+    background-color: #0e4633;
+}
+
+@media (min-width: 600px) {
+    header {
+        font-size: 4em;
+        padding: 30px 0;
+    }
+
+    .container {
+        width: 80%;
+    }
+
+    .search-box {
+        font-size: 1em;
+    }
+
+    .search-button {
+        font-size: 1em;
+        padding: 7px;
+        width: 90px;
+    }
+}
