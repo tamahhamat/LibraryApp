@@ -31,14 +31,14 @@ app.use('/styles', express.static(path.join(__dirname, '..', 'FrontEnd', 'styles
 
 // Import routes
 const appRoutes = require('./Routes/appRoutes');
-const userRoutes = require('./Routes/userRoutes');
+//const userRoutes = require('./Routes/userRoutes');
 const authRoutes = require('./Routes/authRoutes');
 
 
 // Mount routes
 app.use(appRoutes);
-app.use('/library', appRoutes);
-app.use(userRoutes);
+//app.use('/library', appRoutes);
+//app.use(userRoutes);
 app.use(authRoutes);
 
 

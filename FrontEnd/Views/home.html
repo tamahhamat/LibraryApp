@@ -70,7 +70,7 @@
                 if (!searchTerm) return;
 
                 try {
-                    const response = await fetch(`http://localhost:800/library/search?query=${encodeURIComponent(searchTerm)}`);
+                    const response = await fetch(`http://localhost:800/search?query=${encodeURIComponent(searchTerm)}`);
                     const data = await response.json();
 
                     const searchResultsDiv = document.getElementById('searchResults');
