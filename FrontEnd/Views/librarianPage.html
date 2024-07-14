@@ -219,27 +219,30 @@
                             removeButton.classList.add('remove-button');
                             removeButton.textContent = 'Remove Book';
 
-                            // Add event listener for remove button
+                            // Add event listener for remove button with confirmation
                             removeButton.addEventListener('click', async () => {
-                                console.log('remove clicked', book.isbn);
-                                try {
-                                    const removeResponse = await fetch('http://localhost:800/removeBook', {
-                                        method: 'DELETE',
-                                        headers: {
-                                            'Content-Type': 'application/json'
-                                        },
-                                        body: JSON.stringify({ ISBN: book.isbn })
-                                    });
+                                const confirmation = confirm(`Are you sure you want to delete "${book.title}" by "${book.author}"?`);
+                                if (confirmation) {
+                                    console.log('remove clicked', book.isbn);
+                                    try {
+                                        const removeResponse = await fetch('http://localhost:800/removeBook', {
+                                            method: 'DELETE',
+                                            headers: {
+                                                'Content-Type': 'application/json'
+                                            },
+                                            body: JSON.stringify({ ISBN: book.isbn })
+                                        });
 
-                                    if (removeResponse.ok) {
-                                        console.log('Book removed successfully');
-                                        // Optionally, remove the book from the DOM
-                                        bookItem.remove();
-                                    } else {
-                                        console.error('Failed to remove book');
+                                        if (removeResponse.ok) {
+                                            console.log('Book removed successfully');
+                                            // Optionally, remove the book from the DOM
+                                            bookItem.remove();
+                                        } else {
+                                            console.error('Failed to remove book');
+                                        }
+                                    } catch (error) {
+                                        console.error('Error deleting book:', error);
                                     }
-                                } catch (error) {
-                                    console.error('Error deleting book:', error);
                                 }
                             });
 
