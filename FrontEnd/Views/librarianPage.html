@@ -159,13 +159,14 @@
             </div>
         </form>
         <div id="searchResults" class="search-results" x-show="results.length > 0">
-            <template x-for="book in results" :key="book.ISBN">
+            <template x-for="book in results" :key="book.isbn">
                 <div class="book-item">
                     <h3>Title: {{ book.title }}</h3>
                     <p>Author: {{ book.author }}</p>
                     <p>Genre: {{ book.genre }}</p>
+                    <p>ISBN: {{ book.isbn }}</p>
                     <button class="edit-button" @click="editBook(book)">Edit Details</button>
-                    <button class="remove-button" @click="deleteBook(book.ISBN)">Remove Book</button>
+                    <button class="remove-button" @click="deleteBook(book.isbn)">Remove Book</button>
                 </div>
             </template>
             <p x-show="results.length === 0">No books found</p>
@@ -202,9 +203,13 @@
                             const genre = document.createElement('p');
                             genre.textContent = `Genre: ${book.genre}`;
 
+                            const ISBN = document.createElement('p');
+                            ISBN.textContent = `ISBN: ${book.isbn}`;
+
                             bookItem.appendChild(title);
                             bookItem.appendChild(author);
                             bookItem.appendChild(genre);
+                            bookItem.appendChild(ISBN);
 
                             const editButton = document.createElement('button');
                             editButton.classList.add('edit-button');
@@ -213,6 +218,18 @@
                             const removeButton = document.createElement('button');
                             removeButton.classList.add('remove-button');
                             removeButton.textContent = 'Remove Book';
+
+                             // Add event listener for remove button
+                             removeButton.addEventListener('click', () => {
+                                console.log('delete clicked', book.isbn);
+                            });
+
+
+                            // Add event listener for edit button
+                            editButton.addEventListener('click', () => {
+                                console.log('edit clicked', book.isbn);
+                            });
+
 
                             bookItem.appendChild(editButton);
                             bookItem.appendChild(removeButton);
@@ -231,6 +248,16 @@
             });
         });
     </script>
+
+    <script>
+        // remove book
+    </script>
+
+
+    
+
+
+
 </body>
 
 </html>
