@@ -4,7 +4,7 @@ const express = require('express');
 const cors = require('cors');
 const path = require('path');
 const bodyParser = require('body-parser');
-const helmet = require('helmet');
+const { authenticateToken } = require('./Middleware/authMiddleware');
 
 const app = express();
 const port = process.env.PORT || 800; 
@@ -37,8 +37,9 @@ const authRoutes = require('./Routes/authRoutes');
 
 // Mount routes
 app.use(appRoutes);
-//app.use('/library', appRoutes);
-//app.use(userRoutes);
+
+// Apply authenticateToken middleware to authRoutes
+app.use('/api', authenticateToken);
 app.use(authRoutes);
 
 
