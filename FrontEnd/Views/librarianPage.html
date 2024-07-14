@@ -32,7 +32,7 @@
 
         .container {
             width: 90%;
-            max-width: 600px;
+            max-width: 800px;
             display: flex;
             flex-direction: column;
             align-items: center;
@@ -63,6 +63,22 @@
 
         .search-button:hover {
             background-color: #0e4633;
+        }
+
+        .results-container {
+            display: flex;
+            justify-content: space-between;
+            width: 100%;
+            margin-top: 20px;
+        }
+
+        .column {
+            width: 48%;
+            padding: 10px;
+            background-color: #fff;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            box-sizing: border-box;
         }
 
         .search-results {
@@ -123,6 +139,45 @@
             background-color: #8b170f;
         }
 
+        .edit-view {
+            display: none;
+            margin-top: 20px;
+            border: 1px solid #ccc;
+            padding: 10px;
+            background-color: #fff;
+            border-radius: 5px;
+            box-sizing: border-box;
+        }
+
+        .edit-form label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+        }
+
+        .edit-form input {
+            width: calc(100% - 20px);
+            padding: 8px;
+            margin-bottom: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            box-sizing: border-box;
+        }
+
+        .edit-form button {
+            padding: 8px 12px;
+            background-color: #0f8b62;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        .edit-form button:hover {
+            background-color: #0e4633;
+        }
+
         @media (min-width: 600px) {
             header {
                 font-size: 4em;
@@ -143,6 +198,7 @@
                 width: 90px;
             }
         }
+
     </style>
 </head>
 
@@ -150,7 +206,6 @@
     <header>
         Librarian Home Page
     </header>
-
     <div class="container" x-data="{ search: '', results: [] }">
         <form id="searchForm">
             <div style="display: flex; align-items: center; width: 100%;">
@@ -158,18 +213,24 @@
                 <button type="submit" class="search-button">Search</button>
             </div>
         </form>
-        <div id="searchResults" class="search-results" x-show="results.length > 0">
-            <template x-for="book in results" :key="book.isbn">
-                <div class="book-item">
-                    <h3>Title: {{ book.title }}</h3>
-                    <p>Author: {{ book.author }}</p>
-                    <p>Genre: {{ book.genre }}</p>
-                    <p>ISBN: {{ book.isbn }}</p>
-                    <button class="edit-button" @click="editBook(book)">Edit Details</button>
-                    <button class="remove-button" @click="removeBook(book.isbn)">Remove Book</button>
-                </div>
-            </template>
-            <p x-show="results.length === 0">No books found</p>
+        <div class="results-container">
+            <div id="searchResults" class="search-results" x-show="results.length > 0">
+                <template x-for="book in results" :key="book.isbn">
+                    <div class="book-item">
+                        <h3>Title: {{ book.title }}</h3>
+                        <p>Author: {{ book.author }}</p>
+                        <p>Genre: {{ book.genre }}</p>
+                        <p>ISBN: {{ book.isbn }}</p>
+                        <button class="edit-button" @click="editBook(book)">Edit Details</button>
+                        <button class="remove-button" @click="removeBook(book.isbn)">Remove Book</button>
+                    </div>
+                </template>
+                <p x-show="results.length === 0">No books found</p>
+            </div>
+            <div id="editView" class="column edit-view">
+                <!-- Edit view???? -->
+                Edit View
+            </div>
         </div>
     </div>
 
@@ -219,7 +280,7 @@
                             removeButton.classList.add('remove-button');
                             removeButton.textContent = 'Remove Book';
 
-                            // Add event listener for remove button with confirmation
+                            //  event listener for remove button with confirmation
                             removeButton.addEventListener('click', async () => {
                                 const confirmation = confirm(`Are you sure you want to delete "${book.title}" by "${book.author}"?`);
                                 if (confirmation) {
@@ -235,7 +296,6 @@
 
                                         if (removeResponse.ok) {
                                             console.log('Book removed successfully');
-                                            // Optionally, remove the book from the DOM
                                             bookItem.remove();
                                         } else {
                                             console.error('Failed to remove book');
@@ -247,9 +307,26 @@
                             });
 
 
-                            // Add event listener for edit button
+                            //  event listener for edit button
                             editButton.addEventListener('click', () => {
                                 console.log('edit clicked', book.isbn);
+
+                                const editViewDiv = document.getElementById('editView');
+                                editViewDiv.innerHTML = `
+                                    <div class="edit-form">
+                                        <label for="editTitle">Title</label>
+                                        <input type="text" id="editTitle" value="${book.title}">
+                                        <label for="editAuthor">Author</label>
+                                        <input type="text" id="editAuthor" value="${book.author}">
+                                        <label for="editGenre">Genre</label>
+                                        <input type="text" id="editGenre" value="${book.genre}">
+                                        <label for="editISBN">ISBN</label>
+                                        <input type="text" id="editISBN" value="${book.isbn}">
+                                        <button type="button">Save Changes</button>
+                                    </div>
+                                `;
+
+                                editViewDiv.style.display = 'block';
                             });
 
 
@@ -271,9 +348,6 @@
         });
     </script>
 
-    <script>
-        // remove book
-    </script>
 
 
     
