@@ -121,7 +121,7 @@
             cursor: pointer;
         }
 
-        .edit-button {
+        .update-button {
             background-color: #0f8b62;
             color: #fff;
         }
@@ -131,7 +131,7 @@
             color: #fff;
         }
 
-        .edit-button:hover {
+        .update-button:hover {
             background-color: #8b170f;
         }
 
@@ -139,7 +139,7 @@
             background-color: #8b170f;
         }
 
-        .edit-view {
+        .update-view {
             display: none;
             margin-top: 20px;
             border: 1px solid #ccc;
@@ -149,13 +149,13 @@
             box-sizing: border-box;
         }
 
-        .edit-form label {
+        .update-form label {
             display: block;
             margin-bottom: 5px;
             font-weight: bold;
         }
 
-        .edit-form input {
+        .update-form input {
             width: calc(100% - 20px);
             padding: 8px;
             margin-bottom: 10px;
@@ -164,7 +164,7 @@
             box-sizing: border-box;
         }
 
-        .edit-form button {
+        .update-form button {
             padding: 8px 12px;
             background-color: #0f8b62;
             color: #fff;
@@ -174,7 +174,7 @@
             transition: background-color 0.3s;
         }
 
-        .edit-form button:hover {
+        .update-form button:hover {
             background-color: #0e4633;
         }
 
@@ -198,7 +198,6 @@
                 width: 90px;
             }
         }
-
     </style>
 </head>
 
@@ -206,7 +205,7 @@
     <header>
         Librarian Home Page
     </header>
-    <div class="container" x-data="{ search: '', results: [] }">
+    <div class="container" x-data="{ search: '', results: [], updateBook: ''}">
         <form id="searchForm">
             <div style="display: flex; align-items: center; width: 100%;">
                 <input type="text" id="searchInput" class="search-box" placeholder="Search for book" x-model="search">
@@ -221,15 +220,25 @@
                         <p>Author: {{ book.author }}</p>
                         <p>Genre: {{ book.genre }}</p>
                         <p>ISBN: {{ book.isbn }}</p>
-                        <button class="edit-button" @click="editBook(book)">Edit Details</button>
+                        <button class="update-button" @click="updateBook(book.isbn)">Update Details</button>
                         <button class="remove-button" @click="removeBook(book.isbn)">Remove Book</button>
                     </div>
                 </template>
                 <p x-show="results.length === 0">No books found</p>
             </div>
-            <div id="editView" class="column edit-view">
-                <!-- Edit view???? -->
-                Edit View
+            <!-- UPDATE DATABASE HERE -->
+            <div id="updateView" class="column update-view" x-show="updateBook">
+                <form class="update-form" @submit.prevent="saveChanges">
+                    <label for="updateTitle">Title</label>
+                    <input type="text" id="updateTitle" x-model="updateBook.title">
+                    <label for="updateAuthor">Author</label>
+                    <input type="text" id="updateAuthor" x-model="updateBook.author">
+                    <label for="updateGenre">Genre</label>
+                    <input type="text" id="updateGenre" x-model="updateBook.genre">
+                    <label for="updateISBN">ISBN</label>
+                    <input type="text" id="updateISBN" x-model="updateBook.isbn" readonly>
+                    <button type="submit">Save Changes</button>
+                </form>
             </div>
         </div>
     </div>
@@ -272,9 +281,9 @@
                             bookItem.appendChild(genre);
                             bookItem.appendChild(ISBN);
 
-                            const editButton = document.createElement('button');
-                            editButton.classList.add('edit-button');
-                            editButton.textContent = 'Edit Details';
+                            const updateButton = document.createElement('button');
+                            updateButton.classList.add('update-button');
+                            updateButton.textContent = 'Update Details';
 
                             const removeButton = document.createElement('button');
                             removeButton.classList.add('remove-button');
@@ -306,31 +315,62 @@
                                 }
                             });
 
+                            ////////////////////////////UPDATE LOGIC HERE 
+                            // Event listener for update button
+                            updateButton.addEventListener('click', () => {
+                                console.log('update clicked', book.isbn);
 
-                            //  event listener for edit button
-                            editButton.addEventListener('click', () => {
-                                console.log('edit clicked', book.isbn);
+                                const updateViewDiv = document.getElementById('updateView');
+                                updateViewDiv.innerHTML = `
+                                <form class="update-form">
+                                    <label for="updateTitle">Title</label>
+                                    <input type="text" id="updateTitle" value="${book.title}">
+                                    <label for="updateAuthor">Author</label>
+                                    <input type="text" id="updateAuthor" value="${book.author}">
+                                    <label for="updateGenre">Genre</label>
+                                    <input type="text" id="updateGenre" value="${book.genre}">
+                                    <label for="updateISBN">ISBN</label>
+                                    <input type="text" id="updateISBN" value="${book.isbn}" readonly>
+                                    <button type="button" id="saveChangesButton">Save Changes</button>
+                                </form>
+                            `;
 
-                                const editViewDiv = document.getElementById('editView');
-                                editViewDiv.innerHTML = `
-                                    <div class="edit-form">
-                                        <label for="editTitle">Title</label>
-                                        <input type="text" id="editTitle" value="${book.title}">
-                                        <label for="editAuthor">Author</label>
-                                        <input type="text" id="editAuthor" value="${book.author}">
-                                        <label for="editGenre">Genre</label>
-                                        <input type="text" id="editGenre" value="${book.genre}">
-                                        <label for="editISBN">ISBN</label>
-                                        <input type="text" id="editISBN" value="${book.isbn}">
-                                        <button type="button">Save Changes</button>
-                                    </div>
-                                `;
+                                updateViewDiv.style.display = 'block';
 
-                                editViewDiv.style.display = 'block';
+                                document.getElementById('saveChangesButton').addEventListener('click', async () => {
+                                    const updatedFields = {
+                                        newTitle: document.getElementById('updateTitle').value,
+                                        newAuthor: document.getElementById('updateAuthor').value,
+                                        newGenre: document.getElementById('updateGenre').value,
+                                    };
+
+                                    try {
+                                        const response = await fetch('http://localhost:800/updateBook', {
+                                            method: 'PATCH', 
+                                            headers: {
+                                                'Content-Type': 'application/json'
+                                            },
+                                            body: JSON.stringify({
+                                                ISBN: book.isbn,
+                                                ...updatedFields
+                                            })
+                                        });
+
+                                        if (response.ok) {
+                                            alert('Book updated successfully');
+                                            updateViewDiv.style.display = 'none';
+                                            document.getElementById('searchForm').dispatchEvent(new Event('submit'));
+                                        } else {
+                                            alert('Failed to update book');
+                                        }
+                                    } catch (error) {
+                                        console.error('Error updating book:', error);
+                                        alert('Error updating book. Please try again later.');
+                                    }
+                                });
                             });
 
-
-                            bookItem.appendChild(editButton);
+                            bookItem.appendChild(updateButton);
                             bookItem.appendChild(removeButton);
 
                             searchResultsDiv.appendChild(bookItem);
@@ -347,13 +387,6 @@
             });
         });
     </script>
-
-
-
-    
-
-
-
 </body>
 
 </html>
