@@ -12,7 +12,7 @@ const port = process.env.PORT || 800;
 
 app.use(cors({
   origin: 'http://127.0.0.1:5501', // allow requests from this origin
-  methods: ['GET', 'POST'], // allow GET and POST 
+  methods: ['GET', 'POST', 'DELETE', 'PATCH'], // allow GET and POST 
   credentials: true, 
 }));
 
