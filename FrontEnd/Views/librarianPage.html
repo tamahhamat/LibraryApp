@@ -166,7 +166,7 @@
                     <p>Genre: {{ book.genre }}</p>
                     <p>ISBN: {{ book.isbn }}</p>
                     <button class="edit-button" @click="editBook(book)">Edit Details</button>
-                    <button class="remove-button" @click="deleteBook(book.isbn)">Remove Book</button>
+                    <button class="remove-button" @click="removeBook(book.isbn)">Remove Book</button>
                 </div>
             </template>
             <p x-show="results.length === 0">No books found</p>
@@ -219,9 +219,28 @@
                             removeButton.classList.add('remove-button');
                             removeButton.textContent = 'Remove Book';
 
-                             // Add event listener for remove button
-                             removeButton.addEventListener('click', () => {
-                                console.log('delete clicked', book.isbn);
+                            // Add event listener for remove button
+                            removeButton.addEventListener('click', async () => {
+                                console.log('remove clicked', book.isbn);
+                                try {
+                                    const removeResponse = await fetch('http://localhost:800/removeBook', {
+                                        method: 'DELETE',
+                                        headers: {
+                                            'Content-Type': 'application/json'
+                                        },
+                                        body: JSON.stringify({ ISBN: book.isbn })
+                                    });
+
+                                    if (removeResponse.ok) {
+                                        console.log('Book removed successfully');
+                                        // Optionally, remove the book from the DOM
+                                        bookItem.remove();
+                                    } else {
+                                        console.error('Failed to remove book');
+                                    }
+                                } catch (error) {
+                                    console.error('Error deleting book:', error);
+                                }
                             });
 
 
