@@ -4,14 +4,18 @@ const User = require('./userModel');
 
 
 async function searchBooks(query) {
+  const lowercaseQuery = query.toLowerCase();
   const searchQuery = `
-    SELECT * 
-    FROM books 
-    WHERE title ILIKE $1 OR author ILIKE $1
+    SELECT *
+    FROM books
+    WHERE title ILIKE $1
+       OR author ILIKE $1
+       OR genre ILIKE $1
+       OR isbn ILIKE $1
   `;
   const { rows } = await pool.query(searchQuery, [`%${query}%`]);
   return rows;
-};
+}
 
 
 
