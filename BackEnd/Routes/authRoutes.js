@@ -6,8 +6,6 @@ const { searchBooks, getBookByISBN, addBook, removeBook, updateBook } = require(
 
 
 
-
-
 // Add a book
 router.post('/addBook', async (req, res) => {
     const { ISBN, title, author, genre } = req.body;
