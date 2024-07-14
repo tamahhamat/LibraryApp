@@ -8,13 +8,6 @@ const { searchBooks, getBookByISBN, addBook, removeBook, updateBook } = require(
 
 
 
-// // Serve the add book form
-// router.get('/addBook', (req, res) => {
-//     res.sendFile(path.join(__dirname, '..', '..', 'FrontEnd', 'views', 'addBook.html'));
-// });
-
-
-
 // Add a book
 router.post('/addBook', async (req, res) => {
     const { ISBN, title, author, genre } = req.body;
@@ -50,7 +43,6 @@ router.patch('/updateBook', async (req, res) => {
         res.status(500).send('Internal Server Error');
     }
 });
-
 
 
 
