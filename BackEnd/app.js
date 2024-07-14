@@ -21,23 +21,12 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 
 
-// app.use(helmet.contentSecurityPolicy({
-//   directives: {
-//     defaultSrc: ["'self'"],
-//     styleSrc: ["'self'", 'https://fonts.googleapis.com'],
-//     fontSrc: ["'self'", 'https://fonts.gstatic.com'],
-//     imgSrc: ["'self'", 'data:', 'https://your-image-source.com'],
-//     scriptSrc: ["'self'", 'https://cdn.jsdelivr.net'], // Add any other script sources
-//     connectSrc: ["'self'", 'https://fonts.googleapis.com'], // For fetching fonts and other external resources
-//     objectSrc: ["'none'"],
-//     upgradeInsecureRequests: []
-//   },
-// }));
-
 
 // Serve static files from the FrontEnd directory
-app.use(express.static(path.join(__dirname, '../Fronten/views')));
+app.use(express.static(path.join(__dirname, '..', 'FrontEnd')));
 
+// Serve librarianStyle.css from the styles directory
+app.use('/styles', express.static(path.join(__dirname, '..', 'FrontEnd', 'styles')));
 
 
 // Import routes
