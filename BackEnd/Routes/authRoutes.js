@@ -1,24 +1,19 @@
 const express = require('express');
 const router = express.Router();
 const path = require('path');
-const { addBook, removeBook, updateBook } = require('../Models/queries');
+const { searchBooks, getBookByISBN, addBook, removeBook, updateBook } = require('../Models/queries');
 
 
 
-// Serve the add book form
-router.get('/addBook', (req, res) => {
-    res.sendFile(path.join(__dirname, '..', '..', 'FrontEnd', 'views', 'addBook.html'));
-});
 
-// Serve the remove book form
-router.get('/removeBook', (req, res) => {
-    res.sendFile(path.join(__dirname, '..', '..', 'FrontEnd', 'views', 'removeBook.html'));
-});
 
-// Serve the edit book form
-router.get('/editBook', (req, res) => {
-    res.sendFile(path.join(__dirname, '..', '..', 'FrontEnd', 'views', 'editBook.html'));
-});
+
+// // Serve the add book form
+// router.get('/addBook', (req, res) => {
+//     res.sendFile(path.join(__dirname, '..', '..', 'FrontEnd', 'views', 'addBook.html'));
+// });
+
+
 
 // Add a book
 router.post('/addBook', async (req, res) => {
@@ -32,17 +27,46 @@ router.post('/addBook', async (req, res) => {
     }
 });
 
-// remove a book
-router.post('/removeBook', async (req, res) => {
+
+// PATCH route to update a book
+router.patch('/updateBook', async (req, res) => {
+    const { ISBN, newTitle, newAuthor, newGenre } = req.body;
+
+    try {
+        const currentBook = await getBookByISBN(ISBN);
+        if (!currentBook) {
+            return res.status(404).send('Book not found');
+        }
+
+        const updatedFields = {};
+        if (newTitle) updatedFields.title = newTitle;
+        if (newAuthor) updatedFields.author = newAuthor;
+        if (newGenre) updatedFields.genre = newGenre;
+
+        await updateBook(ISBN, updatedFields);
+        res.status(200).send('Book updated successfully');
+    } catch (error) {
+        console.error('Error updating book:', error);
+        res.status(500).send('Internal Server Error');
+    }
+});
+
+
+
+
+// Route to handle deleting a book
+router.delete('/removeBook', async (req, res) => {
     const { ISBN } = req.body;
     try {
         await removeBook(ISBN);
         res.status(200).send('Book removed successfully');
     } catch (error) {
-        console.error('Error removing book:', error);
+        console.error('Error deleting book:', error);
         res.status(500).send('Internal Server Error');
     }
 });
+
+
 
 
 module.exports = router;
