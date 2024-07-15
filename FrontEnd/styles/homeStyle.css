@@ -19,6 +19,7 @@ header {
     color: #fff;
     padding: 20px 0;
     position: relative;
+    z-index: 1; /* Ensure header stays on top */
 }
 
 .login-container {
@@ -122,10 +123,10 @@ header {
     color: #666;
 }
 
-@media (min-width: 600px) {
+@media (max-width: 1200px) {
     header {
-        font-size: 4em;
-        padding: 30px 0;
+        font-size: 2em; /* Decrease font size for smaller screens */
+        padding-top: 100px; /* Increase top padding to move header down */
     }
 
     .container {
