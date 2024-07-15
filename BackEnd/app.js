@@ -11,7 +11,7 @@ const port = process.env.PORT || 800;
 
 
 app.use(cors({
-  origin: 'http://127.0.0.1:5501', // allow requests from this origin
+  origin: process.env.NODE_ENV === 'staging' ? 'http://staging.example.com' : 'http://127.0.0.1:5501',
   methods: ['GET', 'POST', 'DELETE', 'PATCH'], // allow GET and POST 
   credentials: true, 
 }));
