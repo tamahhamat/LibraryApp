@@ -4,7 +4,7 @@ const express = require('express');
 const cors = require('cors');
 const path = require('path');
 const bodyParser = require('body-parser');
-const { authenticateToken } = require('/Middleware/authMiddleware'); 
+const { authenticateToken } = require('Middleware/authMiddleware'); 
 
 const app = express();
 const port = process.env.PORT || 800; 
@@ -29,8 +29,8 @@ app.use(express.static(path.join(__dirname, '..', 'FrontEnd')));
 app.use('/styles', express.static(path.join(__dirname, '..','FrontEnd', 'styles'))); 
 
 // Import routes
-const appRoutes = require('/Routes/appRoutes'); 
-const authRoutes = require('/Routes/authRoutes'); 
+const appRoutes = require('Routes/appRoutes'); 
+const authRoutes = require('Routes/authRoutes'); 
 
 
 // Mount routes
