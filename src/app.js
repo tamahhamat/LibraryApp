@@ -20,10 +20,10 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 
 // Serve static files from the FrontEnd directory
-app.use(express.static(path.join(__dirname, 'FrontEnd')));
+app.use(express.static(path.join(__dirname,'..', 'FrontEnd')));
 
 // Serve styles
-app.use('/styles', express.static(path.join(__dirname, 'FrontEnd', 'styles')));
+app.use('/styles', express.static(path.join(__dirname, '..', 'FrontEnd', 'styles')));
 
 // Import routes
 const appRoutes = require('./Routes/appRoutes');
