@@ -4,7 +4,7 @@ const express = require('express');
 const cors = require('cors');
 const path = require('path');
 const bodyParser = require('body-parser');
-const { authenticateToken } = require('./Middleware/authMiddleware');
+const { authenticateToken } = require('./src/Middleware/authMiddleware'); 
 
 const app = express();
 const port = process.env.PORT || 800; 
@@ -23,16 +23,14 @@ app.use(bodyParser.json());
 
 
 // Serve static files from the FrontEnd directory
-app.use(express.static(path.join(__dirname, '..', 'FrontEnd')));
+app.use(express.static(path.join(__dirname, 'FrontEnd'))); 
 
-// Serve librarianStyle.css from the styles directory
-app.use('/styles', express.static(path.join(__dirname, '..', 'FrontEnd', 'styles')));
-
+// Serve styles
+app.use('/styles', express.static(path.join(__dirname, 'FrontEnd', 'styles'))); 
 
 // Import routes
-const appRoutes = require('./Routes/appRoutes');
-//const userRoutes = require('./Routes/userRoutes');
-const authRoutes = require('./Routes/authRoutes');
+const appRoutes = require('./src/Routes/appRoutes'); 
+const authRoutes = require('./src/Routes/authRoutes'); 
 
 
 // Mount routes
