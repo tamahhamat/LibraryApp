@@ -38,7 +38,7 @@ This project is a basic web application for a book library catalog. It uses a RE
 3. run the backend sever using a command like 
 - nodemon app.js
 - node app.js
-4. Run the front end server 
+4. Run the front end server, prehaps using live server 
 5. Open your web browser and navigate to http://localhost:800/.
 6. goodluck. 
 
