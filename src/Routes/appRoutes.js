@@ -10,7 +10,7 @@ const { generateToken, storeToken } = require('../utils');
 // Route to serve home.html
 router.get('/', (req, res) => {
   console.log(__dirname);
-    res.sendFile(path.join(__dirname, '..', '..', '..', 'FrontEnd', 'Views', 'home.html'));
+    res.sendFile(path.join(__dirname, '..', '..', 'FrontEnd', 'Views', 'home.html'));
 });
 
 
@@ -42,7 +42,7 @@ router.get('/search', async (req, res) => {
 
 // get librarian page
 router.get('/librarian', (req, res) => {
-  res.sendFile(path.join(__dirname, 'Frontend', 'Views', 'librarianPage.html'));
+  res.sendFile(path.join(__dirname, '..', '..', 'Frontend', 'Views', 'librarianPage.html'));
 });
 
 

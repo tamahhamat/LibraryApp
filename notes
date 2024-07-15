@@ -1,18 +1,22 @@
 add error messages if data is entered wrong (ie isbn forms etc)
 
-add navigating bar/buttons to navigate without pushing back all the time 
 
-ignore spaces in search terms
+why do search results change after detials updated? just moves position, should always ordered alphabetically
 
-make edit book better - should enter existing detail -> new detail, maybe select from drop down what detail, then enter old/new?
-
-ask for confirmation before deleteing book - book found, confim delete book
+ask for password before deleteing book - book found, confim delete book
 
 
-restructure - search for book and then have the option to add it or remove it
+add X to close editView
 
-add to database if book is part of a series, return all in series
 
-tomorrow- add auth middleware
-add logout
+search seems to interfere wth login
 
+sorry, we dont have that book message
+
+
+
+deploy:
+The application must be successfully deployed to a live staging environment, ensuring
+it is fully operational and accessible via a publicly available URL. This criterion
+evaluates the application's deployment process, its performance in a live environment,
+and the ability to provide a seamless user experience on the staging platform.

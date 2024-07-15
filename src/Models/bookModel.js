@@ -6,6 +6,7 @@ class Book {
       this.title = title;
       this.author = author;
       this.genre = genre;
+      this.cover_photo = cover_photo;
     }
   }
   

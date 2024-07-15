@@ -125,8 +125,8 @@ header {
 
 @media (max-width: 1200px) {
     header {
-        font-size: 2em; /* Decrease font size for smaller screens */
-        padding-top: 100px; /* Increase top padding to move header down */
+        font-size: 2em; 
+        padding-top: 100px; 
     }
 
     .container {
