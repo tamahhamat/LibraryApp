@@ -9,7 +9,7 @@ const { generateToken, storeToken } = require('../utils');
 
 // Route to serve home.html
 router.get('/', (req, res) => {
-    res.sendFile(path.join(__dirname,  'FrontEnd', 'views', 'home.html'));
+    res.sendFile(path.join(__dirname, '..', '..', 'FrontEnd', 'views', 'home.html'));
 });
 
 
