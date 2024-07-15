@@ -26,7 +26,12 @@ This project is a basic web application for a book library catalog. It uses a RE
 - Nodemon (optional)
 - liveserver
 
-### 
+1. Be on my computer
+2. Run the backend server using nodemon
+3. run the fronend server using go live
+4. go to http://localhost:800/
+
+### or
 
 1. Clone the repository: https://github.com/tamahhamat/LibraryApp
 2. Get access to my pgSQL databse somehow, probably if I allow external ip address in someway and give you these credentials:
