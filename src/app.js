@@ -20,6 +20,7 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 
 // Serve static files from the FrontEnd directory
+console.log(__dirname);
 app.use(express.static(path.join(__dirname,'..', 'FrontEnd')));
 
 // Serve styles
