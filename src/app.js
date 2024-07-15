@@ -26,8 +26,8 @@ app.use(express.static(path.join(__dirname, 'FrontEnd')));
 app.use('/styles', express.static(path.join(__dirname, 'FrontEnd', 'styles')));
 
 // Import routes
-const appRoutes = require('./Routes/appRoutes');
-const authRoutes = require('./Routes/authRoutes');
+const appRoutes = require('/Routes/appRoutes');
+const authRoutes = require('/Routes/authRoutes');
 
 // Mount routes
 app.use(appRoutes);
