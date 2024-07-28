@@ -7,10 +7,10 @@ const bodyParser = require('body-parser');
 const { authenticateToken } = require('./Middleware/authMiddleware'); 
 
 const app = express();
-const port = process.env.PORT || 800; 
+const port = process.env.PORT || 10000; 
 
 app.use(cors({
-  origin: process.env.NODE_ENV === 'staging' ? 'https://libraryapp-e6m5.onrender.com/' : 'http://127.0.0.1:5501',
+  origin: process.env.NODE_ENV === 'staging' ? 'https://libraryapp-e6m5.onrender.com/' : `http://localhost:${port}`,
   methods: ['GET', 'POST', 'DELETE', 'PATCH'],
   credentials: true,
 }));
