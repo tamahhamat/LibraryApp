@@ -10,7 +10,7 @@ const app = express();
 const port = process.env.PORT || 800; 
 
 app.use(cors({
-  origin: process.env.NODE_ENV === 'staging' ? 'https://your-app-on-render.com' : 'http://127.0.0.1:5501',
+  origin: process.env.NODE_ENV === 'staging' ? 'https://libraryapp-e6m5.onrender.com/' : 'http://127.0.0.1:5501',
   methods: ['GET', 'POST', 'DELETE', 'PATCH'],
   credentials: true,
 }));
