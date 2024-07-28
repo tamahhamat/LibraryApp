@@ -10,7 +10,7 @@ const app = express();
 const port = process.env.PORT || 800; 
 
 app.use(cors({
-  origin: process.env.NODE_ENV === 'staging' ? 'http://staging.example.com' : 'http://127.0.0.1:5501',
+  origin: process.env.NODE_ENV === 'staging' ? 'https://your-app-on-render.com' : 'http://127.0.0.1:5501',
   methods: ['GET', 'POST', 'DELETE', 'PATCH'],
   credentials: true,
 }));

@@ -7,7 +7,6 @@
     <title>Library Home Page</title>
     <link rel="stylesheet" href="/styles/librarianStyle.css">
     <script src="https://cdn.jsdelivr.net/npm/alpinejs@2.8.2/dist/alpine.min.js" defer></script>
-
 </head>
 
 <body>
@@ -45,7 +44,6 @@
             </form>
         </div>
 
-
         <div class="results-container">
             <div id="searchResults" class="search-results" x-show="results.length > 0">
                 <template x-for="book in results" :key="book.isbn">
@@ -60,7 +58,6 @@
                 </template>
                 <p x-show="results.length === 0">No books found</p>
             </div>
-
 
             <!-- UPDATE DATABASE HERE -->
             <div id="updateView" class="column update-view" x-show="updateBook">
@@ -81,6 +78,7 @@
 
     <script>
         document.addEventListener('DOMContentLoaded', () => {
+            const API_URL = 'https://libraryapp-e6m5.onrender.com'; // Render backend URL
 
             const addBookButton = document.getElementById('add-button');
             const addBookDiv = document.getElementById('addBookDiv');
@@ -88,12 +86,10 @@
                 addBookDiv.style.display = 'block';
             });
 
-
             document.getElementById('logout-button').addEventListener('click', () => {
                 localStorage.removeItem('token');
                 window.location.href = '/';
             });
-
 
             document.querySelector('.add-book-form').addEventListener('submit', async (event) => {
                 event.preventDefault();
@@ -109,7 +105,7 @@
                 }
 
                 try {
-                    const response = await fetch('http://localhost:800/addBook', {
+                    const response = await fetch(`${API_URL}/addBook`, {
                         method: 'POST',
                         headers: {
                             'Content-Type': 'application/json'
@@ -131,9 +127,6 @@
                 }
             });
 
-
-
-            /////////// search
             document.getElementById('searchForm').addEventListener('submit', async (event) => {
                 event.preventDefault();
 
@@ -144,7 +137,7 @@
                 if (!searchTerm) return;
 
                 try {
-                    const response = await fetch(`http://localhost:800/search?query=${encodeURIComponent(searchTerm)}`);
+                    const response = await fetch(`${API_URL}/search?query=${encodeURIComponent(searchTerm)}`);
                     const data = await response.json();
 
                     const searchResultsDiv = document.getElementById('searchResults');
@@ -182,13 +175,11 @@
                             removeButton.classList.add('remove-button');
                             removeButton.textContent = 'Remove Book';
 
-                            //////////// remove button with confirmation
                             removeButton.addEventListener('click', async () => {
                                 const confirmation = confirm(`Are you sure you want to delete "${book.title}" by "${book.author}"?`);
                                 if (confirmation) {
-                                    console.log('remove clicked', book.isbn);
                                     try {
-                                        const removeResponse = await fetch('http://localhost:800/removeBook', {
+                                        const removeResponse = await fetch(`${API_URL}/removeBook`, {
                                             method: 'DELETE',
                                             headers: {
                                                 'Content-Type': 'application/json'
@@ -208,11 +199,7 @@
                                 }
                             });
 
-                            ////////////////////////////UPDATE LOGIC HERE 
-                            // Event listener for update button
                             updateButton.addEventListener('click', () => {
-                                console.log('update clicked', book.isbn);
-
                                 const updateViewDiv = document.getElementById('updateView');
                                 updateViewDiv.innerHTML = `
                                 <form class="update-form">
@@ -238,7 +225,7 @@
                                     };
 
                                     try {
-                                        const response = await fetch('http://localhost:800/updateBook', {
+                                        const response = await fetch(`${API_URL}/updateBook`, {
                                             method: 'PATCH',
                                             headers: {
                                                 'Content-Type': 'application/json'
